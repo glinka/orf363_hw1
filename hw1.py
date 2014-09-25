@@ -40,7 +40,7 @@ def three_dim_plots():
     plt.show(fig)
 
 def taylor_series():
-    # question 4
+    # question 4.1
     import matplotlib.pyplot as plt
     f = lambda x: np.sin(x)
     f0 = lambda x: 0*x
@@ -76,11 +76,38 @@ def taylor_series():
     ax.set_xlabel('x', fontsize=32)
     ax.set_ylabel(r'$\frac{|f-f_3|}{|x|^3}$', fontsize=32, rotation='horizontal', labelpad=50)
     plt.show(fig)
+
+def taylor_series_ii():
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import Axes3D
+    g = lambda x1,  x2: np.power(x1+x2, 4) - np.power(x1-x2, 3)
+    gp = np.array((-256, -256))
+    gpp = np.array(((192, 192), (192, 192)))
+    # gx1 = -256; gx2 = -256
+    # gx1x1 = 192; gx1x2 = 192; gx2x2 = 192
+    g1 = lambda x1, x2: 256 + gp[0]*(x1 + 2) + gp[1]*(x2 + 2)
+    g2 = lambda x1, x2: 256 + gp[0]*(x1 + 2) + gp[1]*(x2 + 2) + 0.5*(x1 + 2)*(x1 + 2)*gpp[0,0] + 0.5*(x2 + 2)*(x2 + 2)*gpp[1,1] + (x1 + 2)*(x2 + 2)*gpp[0,1]
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    xs, ys = np.meshgrid(np.linspace(-3, -1, 50), np.linspace(-3, -1, 50))
+    ax.scatter(xs, ys, g(xs, ys), c='b', alpha=0.3, lw=0)
+    ax.scatter(xs, ys, g1(xs, ys), c='r', lw=0)
+    plt.show()
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    xs, ys = np.meshgrid(np.linspace(-3, -1, 50), np.linspace(-3, -1, 50))
+    ax.scatter(xs, ys, g(xs, ys), c='b', alpha=0.3, lw=0)
+    ax.scatter(xs, ys, g2(xs, ys), c='r', lw=0)
+    plt.show()
+    
+    
+    
                 
 def do_hw():
-    taylor_series()
-    sympy_demo()
     three_dim_plots()
+    sympy_demo()
+    taylor_series()
+    taylor_series_ii()
 
 if __name__=='__main__':
     do_hw()
